@@ -1,0 +1,70 @@
+# =============================================================================
+# .htaccess — Apache Web Server Configuration
+# Secure E-Commerce Payment Demo
+# =============================================================================
+#
+# SECURITY NOTE: This file must be placed in public/ (the web root).
+# The config/ and src/ directories must be OUTSIDE the web root or
+# protected by the rules below.
+# =============================================================================
+
+# ─── FORCE HTTPS ─────────────────────────────────────────────────────────────
+# Redirect all HTTP traffic to HTTPS (Section 1.2.1 — TLS/SSL)
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ─── BLOCK ACCESS TO SENSITIVE DIRECTORIES ───────────────────────────────────
+# The config/ and src/ directories contain secrets and server-side code.
+# They must never be directly accessible via HTTP.
+<IfModule mod_rewrite.c>
+    RewriteRule ^(config|src)/ - [F,L]
+</IfModule>
+
+# ─── DENY ACCESS TO CONFIG AND PHP CLASS FILES ───────────────────────────────
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# ─── REMOVE SERVER FINGERPRINTING ────────────────────────────────────────────
+# Do not expose Apache version or PHP version in response headers.
+ServerTokens Prod
+ServerSignature Off
+
+# ─── DISABLE DIRECTORY LISTING ───────────────────────────────────────────────
+Options -Indexes
+
+# ─── CACHE CONTROL FOR STATIC ASSETS ────────────────────────────────────────
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css          "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png         "access plus 1 year"
+    ExpiresByType image/svg+xml     "access plus 1 year"
+    # No caching for PHP pages — each request needs a fresh CSP nonce
+    ExpiresByType text/html         "access plus 0 seconds"
+    ExpiresByType application/json  "access plus 0 seconds"
+</IfModule>
+
+# ─── ADDITIONAL SECURITY HEADERS (FALLBACK) ──────────────────────────────────
+# These complement the headers set in PHP's SecurityHeaders.php.
+# Having them in both places ensures they apply even to static files.
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin"
+    # CSP is set dynamically by PHP (contains the nonce), not here.
+
+    # Remove PHP version header
+    Header unset X-Powered-By
+</IfModule>
+
+# ─── MIME TYPES ───────────────────────────────────────────────────────────────
+AddType application/json .json
+AddType text/javascript  .js
+
+# ─── PHP ERROR DISPLAY ───────────────────────────────────────────────────────
+# Suppress all errors from being displayed (prevents info leakage in production)
+php_flag  display_errors Off
+php_value error_reporting 0

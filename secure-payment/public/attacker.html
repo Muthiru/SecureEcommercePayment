@@ -1,0 +1,93 @@
+// Public-facing clickjacking simulation file
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Win a Prize!</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #1a1a2e;
+      color: white;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #ff6b6b;
+      margin-bottom: 8px;
+    }
+
+    p {
+      color: #aaa;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .overlay-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .fake-btn {
+      position: absolute;
+      top: 455px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+
+      background: #d62d2d;
+      color: white;
+      border: none;
+      padding: 14px 60px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+      pointer-events: none;
+      /* attacker's fake button — visual only */
+    }
+
+    iframe {
+      opacity: 0.01;
+      /* nearly invisible — user can't see the real checkout */
+      width: 900px;
+      height: 620px;
+      border: 2px dashed #ff6b6b;
+      display: block;
+    }
+
+    .note {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #ff6b6b;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🎉 Congratulations! You've been selected!</h1>
+  <p>Click the button below to claim your free prize.</p>
+
+  <div class="overlay-wrapper">
+    <!-- Attacker's fake button — visually on top -->
+    <div class="fake-btn">🎁 Claim My Prize</div>
+
+    <!--
+      The real checkout page embedded invisibly underneath.
+      X-Frame-Options: DENY will cause this iframe to be BLANK.
+      Without the header, the iframe would load and the "Claim My Prize"
+      click would actually hit the real PAY button.
+    -->
+    <iframe src="index.php" title="hidden checkout" sandbox="allow-scripts allow-forms allow-same-origin">
+    </iframe>
+  </div>
+
+  <p class="note">
+    ↑ The iframe above should be blank — X-Frame-Options: DENY blocked it.<br>
+    Open DevTools → Console to see the browser's refusal message.
+  </p>
+</body>
+
+</html>
