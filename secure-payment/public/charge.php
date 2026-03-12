@@ -1,7 +1,5 @@
 <?php
 use Vault\SecurityHeaders;
-// Import product retrieval for charge validation
-use function Vault\getProduct;
 
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/products.php';

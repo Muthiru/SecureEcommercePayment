@@ -202,11 +202,10 @@ $sessionCart = getCart();
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .product-card:hover .product-img img { transform: scale(1.06); }
-
-  .product-emoji {
+  .product-img-fb {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    font-size: 72px; background: var(--cream);
+    font-size: 48px; background: var(--cream); color: var(--muted);
   }
 
   .product-badge {
@@ -438,7 +437,7 @@ $sessionCart = getCart();
     <div class="product-card" data-category="<?= htmlspecialchars(strtolower($p['category'])) ?>">
       <div class="product-img">
         <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" loading="lazy" class="shop-img">
-        <div class="product-emoji" style="display:none"><?= $p['emoji'] ?></div>
+        <div class="product-img-fb" style="display:none"><?= htmlspecialchars(mb_substr($p['name'], 0, 1)) ?></div>
         <?php if (!empty($p['badge'])): ?>
           <div class="product-badge <?= htmlspecialchars($p['badge']) ?>"><?= htmlspecialchars($p['badge']) ?></div>
         <?php endif; ?>
@@ -457,7 +456,7 @@ $sessionCart = getCart();
           <button
             class="add-btn"
             id="btn-<?= htmlspecialchars($p['id']) ?>"
-            onclick="addToCart('<?= htmlspecialchars($p['id']) ?>', '<?= htmlspecialchars(addslashes($p['name'])) ?>', <?= (float)$p['price'] ?>, '<?= $p['emoji'] ?>', '<?= htmlspecialchars(addslashes($p['category'])) ?>', '<?= htmlspecialchars($p['image']) ?>')"
+            onclick="addToCart('<?= htmlspecialchars($p['id']) ?>', '<?= htmlspecialchars(addslashes($p['name'])) ?>', <?= (float)$p['price'] ?>, '<?= htmlspecialchars(addslashes($p['category'])) ?>', '<?= htmlspecialchars($p['image']) ?>')"
           >Add</button>
         </div>
       </div>
@@ -516,18 +515,17 @@ cart[<?= json_encode($id) ?>] = {
   id: <?= json_encode($p['id']) ?>,
   name: <?= json_encode($p['name']) ?>,
   price: <?= (float)$p['price'] ?>,
-  emoji: <?= json_encode($p['emoji']) ?>,
   image: <?= json_encode($p['image'] ?? '') ?>,
   category: <?= json_encode($p['category']) ?>,
   qty: <?= (int)$qty ?>
 };
 <?php endforeach; ?>
 
-async function addToCart(id, name, price, emoji, category, image = '') {
+function addToCart(id, name, price, category, image = '') {
   if (cart[id]) {
     cart[id].qty++;
   } else {
-    cart[id] = { id, name, price, emoji, image, category, qty: 1 };
+    cart[id] = { id, name, price, image, category, qty: 1 };
   }
   updateCartUI();
   showToast(name + ' added to cart');
@@ -545,7 +543,7 @@ async function addToCart(id, name, price, emoji, category, image = '') {
   fetch('shop.php', { method: 'POST', body: form }).catch(() => {});
 }
 
-async function changeQty(id, delta) {
+function changeQty(id, delta) {
   if (!cart[id]) return;
   cart[id].qty += delta;
   if (cart[id].qty <= 0) delete cart[id];
@@ -557,7 +555,7 @@ async function changeQty(id, delta) {
   fetch('cart.php', { method: 'POST', body: form }).catch(() => {});
 }
 
-async function removeFromCart(id) {
+function removeFromCart(id) {
   delete cart[id];
   updateCartUI();
   const form = new FormData();
@@ -589,7 +587,7 @@ function updateCartUI() {
 
   container.innerHTML = items.map(item => `
     <div class="cart-item">
-      <div class="cart-item-img">${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<div class="cart-item-img-fb">${item.emoji}</div>`}</div>
+      <div class="cart-item-img">${item.image ? `<img src="${item.image}" alt="${item.name}">` : `<div class="cart-item-img-fb">${(item.name || '').charAt(0)}</div>`}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
         <div class="cart-item-cat">${item.category}</div>
@@ -638,10 +636,10 @@ function showToast(msg) {
 updateCartUI();
 
 document.addEventListener('error', function(e) {
-  if (e.target.classList.contains('shop-img')) {
+  if (e.target.classList && e.target.classList.contains('shop-img')) {
     e.target.style.display = 'none';
     var fb = e.target.nextElementSibling;
-    if (fb) { fb.style.display = 'flex'; }
+    if (fb && fb.classList.contains('product-img-fb')) { fb.style.display = 'flex'; }
   }
 }, true);
 </script>

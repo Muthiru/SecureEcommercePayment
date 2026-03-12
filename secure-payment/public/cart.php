@@ -285,9 +285,9 @@ $cartCount = array_sum($cart);
                 <div class="item-img">
                   <?php if (!empty($p['image'])): ?>
                     <img src="<?= htmlspecialchars($p['image']) ?>" alt="<?= htmlspecialchars($p['name']) ?>" loading="lazy" class="cart-img">
-                    <div class="item-img-fb" style="display:none"><?= $p['emoji'] ?></div>
+                    <div class="item-img-fb item-img-fb--fallback" style="display:none"><?= htmlspecialchars(mb_substr($p['name'], 0, 1)) ?></div>
                   <?php else: ?>
-                    <div class="item-img-fb"><?= $p['emoji'] ?></div>
+                    <div class="item-img-fb"><?= htmlspecialchars(mb_substr($p['name'], 0, 1)) ?></div>
                   <?php endif; ?>
                 </div>
                 <div>
@@ -423,6 +423,14 @@ function removeItem(id) {
   if (Object.keys(cart).length === 0) location.reload();
 }
 
+document.addEventListener('error', function(e) {
+  if (e.target.classList && e.target.classList.contains('cart-img')) {
+    e.target.style.display = 'none';
+    var fb = e.target.nextElementSibling;
+    if (fb && fb.classList.contains('item-img-fb--fallback')) { fb.style.display = 'flex'; }
+  }
+}, true);
+
 function refreshLine(id) {
   const el = document.getElementById('line-' + id);
   if (el && cart[id]) el.textContent = '$' + (cart[id].price * cart[id].qty).toFixed(2);
@@ -438,13 +446,6 @@ function refreshTotals() {
   document.getElementById('sum-total').textContent    = '$' + total.toFixed(2);
 }
 
-document.addEventListener('error', function(e) {
-  if (e.target.classList.contains('cart-img')) {
-    e.target.style.display = 'none';
-    var fb = e.target.nextElementSibling;
-    if (fb) { fb.style.display = 'flex'; }
-  }
-}, true);
 </script>
 </body>
 </html>

@@ -52,7 +52,6 @@ $nonceHtml = htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8');
 .summary-box-body{padding:20px}
 .summary-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-200)}
 .summary-item:last-child{border-bottom:none}
-.summary-item-emoji{width:40px;height:40px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;position:relative}
 .summary-item-qty{position:absolute;top:-5px;right:-5px;background:var(--black);color:var(--white);font-size:9px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .summary-item-name{flex:1;font-size:13px;font-weight:500;line-height:1.3}
 .summary-item-price{font-size:13px;font-weight:600}

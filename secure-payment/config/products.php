@@ -126,7 +126,6 @@ define('PRODUCTS', [
 ]);
 
 // Returns the product array for the given ID, or null if not found.
-// Retrieves product details by ID
 function getProduct(string $id): ?array {
     foreach (PRODUCTS as $p) {
         if ($p['id'] === $id) {
