@@ -217,7 +217,7 @@ $nonceHtml = htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8');
 
     <!-- DIAGNOSTICS -->
     <div class="diag-panel">
-      <button class="diag-header" onclick="togglePanel('diag-body','diag-toggle')">
+      <button class="diag-header" id="diag-header-btn">
         <span class="diag-header-title">🔬 Security Diagnostics</span>
         <span class="diag-toggle" id="diag-toggle">[ show ]</span>
       </button>
@@ -247,15 +247,15 @@ $nonceHtml = htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8');
 
     <!-- ATTACK PANEL -->
     <div class="attack-panel">
-      <button class="attack-header" onclick="togglePanel('attack-body','attack-toggle')">
+      <button class="attack-header" id="attack-header-btn">
         <span class="attack-header-title">⚡ Attack Simulation</span>
         <span class="diag-toggle" id="attack-toggle">[ show ]</span>
       </button>
       <div class="attack-body" id="attack-body">
         <p class="attack-desc">Simulate the attacks from Chapter 1. Each is blocked by the active security architecture. Open DevTools → Console to see CSP violation reports.</p>
-        <button class="attack-btn" onclick="simulateXSS()">⚡ XSS — Inject &lt;script&gt;alert('steal_data')&lt;/script&gt;</button>
-        <button class="attack-btn" onclick="simulateMagecart()">⚡ Magecart — Load script from evil-skimmer.example.com</button>
-        <button class="attack-btn" onclick="simulateClickjacking()">⚡ Clickjacking — Check X-Frame-Options header</button>
+        <button class="attack-btn" id="simulate-xss-btn">⚡ XSS — Inject &lt;script&gt;alert('steal_data')&lt;/script&gt;</button>
+        <button class="attack-btn" id="simulate-magecart-btn">⚡ Magecart — Load script from evil-skimmer.example.com</button>
+        <button class="attack-btn" id="simulate-clickjacking-btn">⚡ Clickjacking — Check X-Frame-Options header</button>
         <div id="attack-result" class="attack-result"></div>
       </div>
     </div>
@@ -320,6 +320,15 @@ $nonceHtml = htmlspecialchars($nonce, ENT_QUOTES, 'UTF-8');
   cardExpiryEl.mount('#stripe-expiry-element');
   cardCvcEl.mount('#stripe-cvc-element');
   cardNumberEl.on('change',({error})=>showError(error?error.message:''));
+  document.getElementById('diag-header-btn').addEventListener('click', ()=>{
+    togglePanel('diag-body', 'diag-toggle');
+  });
+  document.getElementById('attack-header-btn').addEventListener('click', ()=>{
+    togglePanel('attack-body', 'attack-toggle');
+  });
+  document.getElementById('simulate-xss-btn').addEventListener('click', simulateXSS);
+  document.getElementById('simulate-magecart-btn').addEventListener('click', simulateMagecart);
+  document.getElementById('simulate-clickjacking-btn').addEventListener('click', simulateClickjacking);
 
   document.getElementById('submit-btn').addEventListener('click', async()=>{
     const name = document.getElementById('cardholder-name').value.trim();

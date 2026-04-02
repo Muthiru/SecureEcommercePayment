@@ -17,8 +17,6 @@ $cartCount = cartCount();
     --paper: #f5f0e8;
     --cream: #ede8dc;
     --gold: #c9a84c;
-    --gold-light: #e8d5a0;
-    --rust: #b85c38;
     --muted: #8a8070;
     --border: rgba(13,13,13,0.12);
   }
@@ -259,6 +257,67 @@ $cartCount = cartCount();
     color: rgba(245,240,232,0.5); line-height: 1.9;
     font-size: 13px; margin-bottom: 14px;
   }
+  .thesis-meta {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(245,240,232,0.14);
+  }
+  .thesis-meta-intro > div:first-of-type {
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+  .thesis-meta-intro {
+    color: rgba(245,240,232,0.65);
+    font-size: 13px;
+    line-height: 1.9;
+    margin-bottom: 22px;
+  }
+  .thesis-meta-intro strong { color: var(--gold); font-weight: 500; }
+  .thesis-meta-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 28px 48px;
+  }
+  .thesis-meta-col--id {
+    flex: 0 0 auto;
+    min-width: 7rem;
+  }
+  .thesis-meta-col--programme {
+    flex: 1 1 200px;
+    min-width: 0;
+  }
+  .thesis-meta-item-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.45);
+    margin-bottom: 6px;
+  }
+  .thesis-meta-item-value {
+    font-size: 12px;
+    color: rgba(245,240,232,0.8);
+    line-height: 1.5;
+  }
+  .thesis-meta-programme {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.15em;
+    row-gap: 4px;
+    line-height: 1.45;
+  }
+  .thesis-meta-programme .seg {
+    white-space: nowrap;
+  }
+  .thesis-meta-programme .sep {
+    opacity: 0.65;
+    user-select: none;
+  }
 
   .security-badges {
     display: flex; flex-direction: column; gap: 16px;
@@ -343,12 +402,15 @@ $cartCount = cartCount();
     .pillars { grid-template-columns: 1fr; }
     .security-grid { grid-template-columns: 1fr; gap: 40px; }
     .security-section { padding: 40px 24px; }
+    .thesis-meta-grid {
+      flex-direction: column;
+      gap: 20px;
+    }
   }
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <a href="shop.php" class="logo">V<span>au</span>LT</a>
   <nav>
@@ -361,7 +423,6 @@ $cartCount = cartCount();
   </a>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-label">VAULT — Our Story</div>
@@ -371,7 +432,6 @@ $cartCount = cartCount();
 
 <div class="container">
 
-  <!-- MANIFESTO -->
   <div class="manifesto">
     <div class="manifesto-text">
       <div class="eyebrow">The Manifesto</div>
@@ -388,7 +448,6 @@ $cartCount = cartCount();
     </div>
   </div>
 
-  <!-- PILLARS -->
   <div class="pillars-header">
     <div class="eyebrow">What We Stand For</div>
     <h2>Three principles, no shortcuts.</h2>
@@ -411,14 +470,33 @@ $cartCount = cartCount();
     </div>
   </div>
 
-  <!-- SECURITY -->
   <div class="security-section">
     <div class="security-grid">
       <div class="security-text">
         <div class="eyebrow">How We Protect You</div>
         <h2>Checkout with <em>confidence.</em></h2>
         <p>VAULT was built as a demonstration of secure e-commerce architecture. Every transaction flows through a stack designed around one principle: your data never touches our server unprotected.</p>
-        <p>This project implements industry-leading security controls as part of a Bachelor's thesis on secure web payment systems.</p>
+        <div class="thesis-meta">
+          <div class="thesis-meta-intro">
+            <div>Crafted by Daniel Njama</div>
+            A Bachelor&rsquo;s thesis exploring secure web payment systems, built with industry-grade security practices for the <strong>Computer Science</strong> programme at <strong>The John Paul II Catholic University of Lublin</strong>.
+          </div>
+          <div class="thesis-meta-grid">
+            <div class="thesis-meta-col--id">
+              <span class="thesis-meta-item-label">Student ID</span>
+              <div class="thesis-meta-item-value">162439</div>
+            </div>
+            <div class="thesis-meta-col--programme">
+              <span class="thesis-meta-item-label">Programme</span>
+              <div class="thesis-meta-item-value thesis-meta-programme">
+                <span class="seg">Computer Science</span><span class="sep"> · </span>
+                <span class="seg">English</span><span class="sep"> · </span>
+                <span class="seg">First-cycle</span><span class="sep"> · </span>
+                <span class="seg">2025/2026</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="security-badges">
         <div class="security-badge-row">
@@ -453,7 +531,6 @@ $cartCount = cartCount();
     </div>
   </div>
 
-  <!-- CTA -->
   <div class="cta-section">
     <div class="eyebrow">Ready to Browse</div>
     <h2>Find a scent <em>worth wearing.</em></h2>
@@ -463,9 +540,8 @@ $cartCount = cartCount();
 
 </div>
 
-<!-- FOOTER -->
 <footer class="site-footer">
-  <strong>VauLT</strong> Premium Store
+  <strong>VauLT</strong> Premium Store · © 2025 · All rights reserved
 </footer>
 
 </body>
