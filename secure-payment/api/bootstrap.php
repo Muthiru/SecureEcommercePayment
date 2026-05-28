@@ -1,18 +1,25 @@
 <?php
 
 namespace {
-    $sharedFiles = [
-        __DIR__ . '/../config/config.php',
-        __DIR__ . '/../config/products.php',
-        __DIR__ . '/../src/SecurityHeaders.php',
-        __DIR__ . '/../src/NonceGenerator.php',
-    ];
+    $configFile = __DIR__ . '/../config/config.php';
+    if (!is_file($configFile)) {
+        throw new \RuntimeException('Missing required config file: ' . $configFile);
+    }
 
-    foreach ($sharedFiles as $sharedFile) {
-        if (!is_file($sharedFile)) {
-            throw new \RuntimeException('Missing required bootstrap file: ' . $sharedFile);
-        }
+    require_once $configFile;
 
-        require_once $sharedFile;
+    if (!defined('STRIPE_PUBLIC_KEY') || !defined('STRIPE_SECRET_KEY')) {
+        throw new \RuntimeException('Bootstrap could not load payment configuration.');
+    }
+
+    $productsFile = __DIR__ . '/../config/products.php';
+    if (!is_file($productsFile)) {
+        throw new \RuntimeException('Missing required bootstrap file: ' . $productsFile);
+    }
+
+    require_once $productsFile;
+
+    if (!defined('NONCE_BYTES')) {
+        define('NONCE_BYTES', 16);
     }
 }
