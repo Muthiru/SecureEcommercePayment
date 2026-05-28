@@ -25,9 +25,11 @@ A PHP prototype demonstrating a **multi-layer security architecture** for e-comm
 1. **Configure Keys**: Set your Stripe test keys in `config/config.php`.
 2. **Local Test**:
    ```bash
-   php -S localhost:8080 -t public/
+   php -S localhost:8080 router.php
    ```
 3. **Visit**: `http://localhost:8080`
+
+The local router uses the same `api/index.php` front controller as Vercel, so both environments follow the same request path.
 
 ---
 

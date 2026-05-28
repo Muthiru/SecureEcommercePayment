@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/products.php';
+require_once __DIR__ . '/../api/bootstrap.php';
 
 use function Vault\getCart;
 use function Vault\cartSubtotal;

@@ -1,8 +1,7 @@
 <?php
 use Vault\SecurityHeaders;
 
-require_once __DIR__ . '/../config/config.php';
-require_once __DIR__ . '/../config/products.php';
+require_once __DIR__ . '/../api/bootstrap.php';
 
 $nonce = base64_encode(random_bytes(16));
 SecurityHeaders::apply($nonce);

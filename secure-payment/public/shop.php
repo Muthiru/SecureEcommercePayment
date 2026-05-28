@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/products.php';
+require_once __DIR__ . '/../api/bootstrap.php';
 
 use function Vault\getProduct;
 use function Vault\cartCount;
@@ -817,7 +817,7 @@ $sessionCart = getCart();
   <!-- HERO -->
   <section class="hero">
     <div class="hero-bg"></div>
-    <div class="hero-label">VauLT — SS 2025 Collection</div>
+    <div class="hero-label">VauLT — SS 2026 Collection</div>
     <h1 class="hero-title">Scent <em>as</em><br>memory.</h1>
     <p class="hero-sub">Fragrances, body oils and ritual soaps — each composed to outlast the moment. Worn once,
       remembered always.</p>

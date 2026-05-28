@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '/../config/products.php';
+require_once __DIR__ . '/../api/bootstrap.php';
 use function Vault\cartCount;
 $cartCount = cartCount();
 ?>
@@ -768,7 +768,7 @@ $cartCount = cartCount();
   </div>
 
   <footer class="site-footer">
-    <strong>VauLT</strong> Premium Store · © 2025 · All rights reserved
+    <strong>VauLT</strong> Premium Store · © 2026 · All rights reserved
   </footer>
 
 </body>

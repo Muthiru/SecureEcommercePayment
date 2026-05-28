@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 
+$bootstrapFile = __DIR__ . '/bootstrap.php';
+if (is_file($bootstrapFile)) {
+  require_once $bootstrapFile;
+}
+
 $publicDir = realpath(__DIR__ . '/../public');
 
 if ($publicDir === false) {
