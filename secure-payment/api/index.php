@@ -22,7 +22,11 @@ $relativePath = str_replace(["\0", '..'], '', $relativePath);
 $targetFile = $publicDir . '/' . $relativePath;
 
 if (is_file($targetFile)) {
-  serveFile($targetFile);
+  if (pathinfo($targetFile, PATHINFO_EXTENSION) === 'php') {
+    require $targetFile;
+  } else {
+    serveFile($targetFile);
+  }
   exit;
 }
 
