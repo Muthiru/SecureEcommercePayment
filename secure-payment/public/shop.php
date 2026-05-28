@@ -144,6 +144,26 @@ $sessionCart = getCart();
       font-weight: 600;
     }
 
+    .mobile-header-link {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--paper);
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+
+    .mobile-header-link:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--ink);
+    }
+
     /* ── HERO ── */
     .hero {
       position: relative;
@@ -775,6 +795,10 @@ $sessionCart = getCart();
         display: none;
       }
 
+      .mobile-header-link {
+        display: inline-flex;
+      }
+
       .hero {
         padding: 60px 20px 50px;
       }
@@ -812,6 +836,7 @@ $sessionCart = getCart();
       <span>Cart</span>
       <span class="cart-count" id="cart-count"><?= $cartCount ?></span>
     </button>
+    <a href="about.php" class="mobile-header-link">About</a>
   </header>
 
   <!-- HERO -->
